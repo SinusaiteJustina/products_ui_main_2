@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html"></head>
+<body>
+<header th:insert="fragments/navbar.html"></header>
+
+<div class="container">
+  <span style="color: #CC0000" th:text="${errorMsg}"></span>
+
+  <form  method="post" th:action="@{/products/save}" th:object="${productItem}" enctype="multipart/form-data">
+    <div class="row g-3">
+      <div class="col-auto">
+        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+        <input type="text" class="form-control" id="name" th:field="*{name}">
+      </div>
+      <div class="col-auto">
+        <label for="price" class="col-sm-2 col-form-label">Price:</label>
+        <input type="text" class="form-control" id="price" th:field="*{price}">
+      </div>
+      <div class="col-auto">
+        <label for="quantity" class="col-sm-2 col-form-label">Quantity:</label>
+        <input type="text" class="form-control" id="quantity" th:field="*{quantity}">
+      </div>
+      <div class="col-auto">
+        <label for="supplierId" class="col-sm-2 col-form-label">Supplier:</label>
+        <select class="form-control" id="supplierId" th:field="*{supplierId}">
+          <option th:value="${null}"></option>
+          <option th:each="supplierItem : ${suppliers}" th:value="${supplierItem.id}" th:text="${supplierItem.name}"></option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <label for="imageFile" class="col-sm-2 col-form-label">Image: </label>
+        <img height="25" th:alt="*{imageName}" th:title="*{imageName}" th:src="@{'/products/' + *{id} + '/image.png' }">
+        <input class="form-control" type="file" id="imageFile" name="imageFile">
+      </div>
+    </div>
+    <div class="row g-3"><br><br></div>
+    <div class="row g-3">
+      <div class="mb-3">
+        <label for="description" class="form-label">Description:</label>
+        <textarea style="width: 82.7%" class="form-control" id="description" th:field="*{description}"></textarea>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-auto">
+        <button class="btn btn-primary mb-3" type="submit">Save</button>
+        <button class="btn btn-secondary mb-3" type="button" onclick="history.back()">Back</button>
+        <input type="hidden" th:field="*{id}">
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

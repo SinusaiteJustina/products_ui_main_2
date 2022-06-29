@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html"></head>
+<body>
+  <header th:insert="fragments/navbar.html"></header>
+  <br>
+  <table class="table table-striped table-bordered">
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Registration Date</th>
+      <th>Last Login Time</th>
+      <th>Actions</th>
+    </tr>
+    <tr th:each="item : ${userItems}">
+      <td th:text="${item.id}">
+      <td th:text="${item.username}">
+      <td th:text="${item.role}">
+      <td th:text="${item.status}">
+      <td th:text="${item.createdAt}">
+      <td th:text="${#temporals.format(item.loggedInAt, 'yyyy-MM-dd HH:mm')}">
+
+      <td th:if="${item.role.toString()} == 'USER'">
+        <a th:href="@{'/users/' + ${item.id}}">Edit</a>
+        <a th:href="@{'/users/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
+      </td>
+      <td th:unless="${item.role.toString()} == 'USER'">&nbsp;</td>
+
+    </tr>
+  </table>
+  <a th:href="@{/users/add}"><input type="submit" value="Add"></a>
+</body>
+</html>
