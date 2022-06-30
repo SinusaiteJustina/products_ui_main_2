@@ -1,5 +1,7 @@
 package lt.bit.products.ui.controller;
 
+import static lt.bit.products.ui.controller.ControllerBase.ADMIN_PATH;
+import static lt.bit.products.ui.controller.ProductController.PRODUCTS_PATH;
 import static org.springframework.util.StringUtils.hasLength;
 
 import java.io.IOException;
@@ -19,17 +21,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-class ProductController {
+@RequestMapping(ADMIN_PATH + PRODUCTS_PATH)
+class ProductController extends ControllerBase{
 
+  protected static final String PRODUCTS_PATH = "/products";
   private final ProductService service;
   private final UserService userService;
   private final SupplierService supplierService;
@@ -46,7 +45,7 @@ class ProductController {
     this.messages = messages;
   }
 
-  @GetMapping("/products")
+  @GetMapping
   String showProducts(Model model, HttpServletRequest request) {
     if (!userService.isAuthenticated()) {
       return "login";
@@ -68,7 +67,7 @@ class ProductController {
     return "productList";
   }
 
-  @GetMapping("/products/{id}")
+  @GetMapping("/{id}")
   String editProduct(@PathVariable UUID id, Model model) {
     if (!userService.isAuthenticated()) {
       return "login";
@@ -78,7 +77,7 @@ class ProductController {
     return "productForm";
   }
 
-  @GetMapping("/products/{id}/image.png")
+  @GetMapping("/{id}/image.png")
   ResponseEntity<byte[]> getProductImage(@PathVariable UUID id) {
     Product product = service.getProduct(id);
     HttpHeaders headers = new HttpHeaders();
@@ -86,7 +85,7 @@ class ProductController {
     return new ResponseEntity<>(product.getImageFileContents(), headers, HttpStatus.OK);
   }
 
-  @GetMapping("/products/add")
+  @GetMapping("/add")
   String addProduct(Model model) {
     if (!userService.isAuthenticated()) {
       return "login";
@@ -96,7 +95,7 @@ class ProductController {
     return "productForm";
   }
 
-  @PostMapping("/products/save")
+  @PostMapping("/save")
   String saveProduct(@ModelAttribute Product product,
       @RequestPart(name = "imageFile", required = false) MultipartFile file, Model model)
       throws ValidationException {
@@ -123,15 +122,15 @@ class ProductController {
     }
 
     service.saveProduct(product);
-    return "redirect:/products";
+    return "redirect:" + ADMIN_PATH + PRODUCTS_PATH;
   }
 
-  @GetMapping("/products/delete")
+  @GetMapping("/delete")
   String deleteProduct(@RequestParam UUID id) {
     if (!userService.isAuthenticated()) {
       return "login";
     }
     service.deleteProduct(id);
-    return "redirect:/products";
+    return "redirect:" + ADMIN_PATH + PRODUCTS_PATH;
   }
 }

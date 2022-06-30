@@ -44,4 +44,11 @@ public class SupplierServiceH2 implements SupplierService {
 //    }
     repository.save(mapper.map(supplier, SupplierEntity.class));
   }
+
+  @Override
+  public void deleteSupplier(UUID id) {
+    repository.deleteById(id);
+  }
+
+
 }

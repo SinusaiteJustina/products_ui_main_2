@@ -3,11 +3,11 @@
 <head th:replace="fragments/head.html"></head>
 <body>
   <header th:insert="fragments/navbar.html"></header>
-  <form method="get" style="margin-left: 2px" th:action="@{/products}">
+  <form method="get" style="margin-left: 2px" th:action="@{admin/products}">
     Id: <input type="text" name="id" th:value="${searchCriteriaId}">&nbsp;&nbsp;
     Name: <input type="text" name="name" th:value="${searchCriteriaName}">
     <button class="btn btn-primary mb-3" type="submit">Search</button>
-    <button class="btn btn-secondary mb-3" type="reset" onclick="window.location.href='/products'">Reset</button>
+    <button class="btn btn-secondary mb-3" type="reset" onclick="window.location.href='/admin/products'">Reset</button>
   </form>
   <br>
   <table class="table table-striped table-bordered">
@@ -20,17 +20,17 @@
       <th>Actions</th>
     </tr>
     <tr th:each="item : ${productItems}">
-      <td><img height="25" th:alt="${item.imageName}" th:title="${item.imageName}" th:src="@{'/products/' + ${item.id} + '/image.png' }"></td>
+      <td><img height="25" th:alt="${item.imageName}" th:title="${item.imageName}" th:src="@{'/admin/products/' + ${item.id} + '/image.png' }"></td>
       <td th:text="${item.id}">
       <td th:text="${item.name}">
       <td th:text="${item.price}">
       <td th:text="${item.quantity}">
       <td>
-        <a th:href="@{'/products/' + ${item.id}}">Edit</a>
-        <a th:href="@{'/products/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
+        <a th:href="@{'/admin/products/' + ${item.id}}">Edit</a>
+        <a th:href="@{'/admin/products/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
       </td>
     </tr>
   </table>
-  <a th:href="@{/products/add}"><button class="btn btn-success mb-3" type="button">Add</button></a>
+  <a th:href="@{/admin/products/add}"><button class="btn btn-success mb-3" type="button">Add</button></a>
 </body>
 </html>

@@ -18,11 +18,11 @@
       <td th:text="${item.companyCode}">
       <td th:text="${item.vatCode}">
       <td>
-        <a th:href="@{'/suppliers/' + ${item.id}}">Edit</a>
-        <a th:href="@{'/suppliers/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
+        <a th:href="@{'/admin/suppliers/' + ${item.id}}">Edit</a>
+        <a th:href="@{'/admin/suppliers/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
       </td>
     </tr>
   </table>
-  <a th:href="@{/suppliers/add}"><input type="submit" value="Add"></a>
+  <a th:href="@{/admin/suppliers/add}"><input type="submit" value="Add"></a>
 </body>
 </html>
