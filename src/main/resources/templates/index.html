@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html"></head>
+<body>
+<!--<header th:insert="fragments/navbar.html"></header>-->
+
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col" th:each="item : ${products}">
+                <span th:text="${item.name}"></span><br>
+                <b><span th:text="${item.price}"></span>&euro;<br></b>
+                <button type="button" onclick="">Add To Cart</button>
+                <input type="hidden" th:value="${item.id}">
+        </div>
+    </div>
+</div>
+</body>
+</html>
