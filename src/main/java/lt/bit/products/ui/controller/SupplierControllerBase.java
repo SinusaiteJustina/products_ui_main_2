@@ -36,7 +36,7 @@ class SupplierControllerBase extends ControllerBase {
     List<Supplier> suppliers = service.getSuppliers();
 
     model.addAttribute("supplierItems", suppliers);
-    return "supplierList";
+    return "admin/supplierList";
   }
 
   @GetMapping( "{id}")
@@ -45,7 +45,7 @@ class SupplierControllerBase extends ControllerBase {
       return "login";
     }
     model.addAttribute("supplierItem", service.getSupplier(id));
-    return "supplierForm";
+    return "admin/supplierForm";
   }
 
   @PostMapping("/save")

@@ -46,7 +46,7 @@ class ProductsImporter {
 //        LOG.info("Products importer completed ");
     }
 
-    @Scheduled(fixedRateString = "60000")
+//    @Scheduled(fixedRateString = "60000")
     void importProducts() {
         if (noNewProducts()) {
         return;

@@ -1,5 +1,6 @@
 package lt.bit.products.ui.controller;
 
+import lt.bit.products.ui.service.ProductService;
 import lt.bit.products.ui.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,22 +11,26 @@ class IndexControllerBase extends ControllerBase {
 
   private UserService userService;
 
-  IndexControllerBase(UserService userService) {
+  private ProductService productService;
+
+  IndexControllerBase(UserService userService, ProductService productService) {
     this.userService = userService;
+    this.productService = productService;
   }
 
   @GetMapping("/")
   String index(Model model) {
-    if (!userService.isAuthenticated()) {
-      return "login";
-    }
-    return "index";
+    model.addAttribute("products", productService.getProducts());
+//    if (!userService.isAuthenticated()) {
+//      return "index";
+//    }
+    return "index" ;
   }
   @GetMapping(ADMIN_PATH)
   String admin(Model model) {
     if (!userService.isAuthenticated()) {
       return "login";
     }
-    return "index";
+    return "admin/index";
   }
 }
