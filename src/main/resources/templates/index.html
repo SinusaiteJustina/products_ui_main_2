@@ -2,16 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head.html"></head>
 <body>
-<!--<header th:insert="fragments/navbar.html"></header>-->
+<script>
+    $(document).ready(function () {
+        $('#cartContainer').on('click', function () {
+            $('#cart').toggle();
 
+        });
+
+        $('button').on('click', function () {
+            const productId = $(this).val();
+            const productName = $(this).attr('title');
+
+            $.ajax({
+                url: "/cart/add",
+                type: "POST",
+                data: {productId: productId, productName: productName},
+                cache: false,
+                async: true,
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
+    });
 </script>
 <div class="container">
+    <div id="cartContainer" class="row">
+        Cart
+        <ul id="cart" style="display: none">
+            <li th:each="cartItem : ${cartItems}">
+                <a th:text="${cartItem.productName}"></a>
+            </li>
+        </ul>
+    </div>
     <div class="row">
         <div class="col" th:each="item : ${products}">
-                <span th:text="${item.name}"></span><br>
-                <b><span th:text="${item.price}"></span>&euro;<br></b>
-                <button type="button" onclick="">Add To Cart</button>
-                <input type="hidden" th:value="${item.id}">
+            <b><span th:text="${item.name}"></span></b><br>
+            <span th:text="${item.price}"></span>&euro;<br>
+            <button type="button" th:title="${item.name}" th:value="${item.id}">Add To Cart</button>
         </div>
     </div>
 </div>
