@@ -1,5 +1,6 @@
 package lt.bit.products.ui.model;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class CartItem {
@@ -8,10 +9,13 @@ public class CartItem {
      private String productName;
      private int count;
 
-     public CartItem(UUID productId, String productName, int count) {
+     private BigDecimal productPrice;
+
+     public CartItem(UUID productId, String productName, BigDecimal productPrice, int count) {
           this.productId = productId;
           this.productName = productName;
           this.count = count;
+          this.productPrice = productPrice;
      }
 
      @Override
@@ -47,4 +51,15 @@ public class CartItem {
      }
 
 
+     public BigDecimal getProductPrice() {
+          return productPrice;
+     }
+
+     public void setProductPrice(BigDecimal productPrice) {
+          this.productPrice = productPrice;
+     }
+
+     public BigDecimal getTotalPrice() {
+          return productPrice.multiply(BigDecimal.valueOf(getCount()));
+     }
 }

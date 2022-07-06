@@ -1,11 +1,14 @@
 package lt.bit.products.ui.controller;
 
+import lt.bit.products.ui.model.CartItem;
 import lt.bit.products.ui.service.CartService;
 import lt.bit.products.ui.service.ProductService;
 import lt.bit.products.ui.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 class IndexControllerBase extends ControllerBase {
@@ -24,8 +27,17 @@ class IndexControllerBase extends ControllerBase {
 
   @GetMapping("/")
   String index(Model model) {
+    List<CartItem> cartItems = cartService.getCartItems();
+    long totalCartItems = cartItems.stream()
+                    .mapToInt(i -> i.getCount()).sum();
+//    int cnt = 0;
+//    for (CartItem item : cartItems) {
+//      cnt += item.getCount();
+//    }
+//    model.addAttribute("totalCartItems", cnt);
+    model.addAttribute("totalCartItems", totalCartItems);
+    model.addAttribute("cartItems", cartItems);
     model.addAttribute("products", productService.getProducts());
-    model.addAttribute("cartItems", cartService.getCartItems());
     return "index" ;
   }
   @GetMapping(ADMIN_PATH)

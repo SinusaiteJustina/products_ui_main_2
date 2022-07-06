@@ -6,10 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @SessionAttributes("cartItems")
@@ -18,13 +17,13 @@ public class CartService {
     private final static Logger LOG = LoggerFactory.getLogger(CartService.class);
     private Map<UUID, CartItem> cartItems = new HashMap<>();
 
-    public void addToCart(UUID productId, String productName) {
+    public void addToCart(UUID productId, String productName, BigDecimal productPrice) {
         CartItem item;
         if (cartItems.containsKey(productId)) {
             item = cartItems.get(productId);
             item.setCount(item.getCount() + 1);
         } else {
-            item = new CartItem(productId, productName, 1);
+            item = new CartItem(productId, productName, productPrice, 1);
 
         }
         cartItems.put(productId, item);
@@ -32,6 +31,8 @@ public class CartService {
     }
 
     public List<CartItem> getCartItems() {
-        return List.of(new CartItem(UUID.randomUUID(), "test", 2));
+        return this.cartItems.values().stream()
+                .sorted(Comparator.comparing(CartItem::getProductName))
+                .collect(Collectors.toList());
     }
 }
