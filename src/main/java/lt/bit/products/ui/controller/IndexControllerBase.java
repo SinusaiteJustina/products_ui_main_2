@@ -28,14 +28,14 @@ class IndexControllerBase extends ControllerBase {
   @GetMapping("/")
   String index(Model model) {
     List<CartItem> cartItems = cartService.getCartItems();
-    long totalCartItems = cartItems.stream()
-                    .mapToInt(i -> i.getCount()).sum();
+
 //    int cnt = 0;
 //    for (CartItem item : cartItems) {
 //      cnt += item.getCount();
 //    }
 //    model.addAttribute("totalCartItems", cnt);
-    model.addAttribute("totalCartItems", totalCartItems);
+    model.addAttribute("totalCartItems", cartService.getTotalCartItems());
+    model.addAttribute("cartAmount", cartService.getCartAmount());
     model.addAttribute("cartItems", cartItems);
     model.addAttribute("products", productService.getProducts());
     return "index" ;
@@ -46,5 +46,8 @@ class IndexControllerBase extends ControllerBase {
       return "login";
     }
     return "admin/index";
+  }
+  long totalCartItems(Model model) {
+    return totalCartItems(model);
   }
 }
