@@ -50,6 +50,13 @@ class CustomerSiteController {
         mv.addObject("cartItems", cartService.getCartItems());
         return mv;
     }
+    @PostMapping("/cart/items/count")
+    @ResponseBody
+    ModelAndView updateItemCount(@RequestParam UUID productId, @RequestParam Integer itemCount) {
+        cartService.updateItemCount(productId, itemCount);
+        cartService.getCartAmount();
+        return getCartItemsWithModelAndView();
+    }
 
 }
 

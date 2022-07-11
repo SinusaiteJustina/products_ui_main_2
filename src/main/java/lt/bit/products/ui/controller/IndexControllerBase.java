@@ -13,41 +13,43 @@ import java.util.List;
 @Controller
 class IndexControllerBase extends ControllerBase {
 
-  private UserService userService;
+    private UserService userService;
 
-  private ProductService productService;
+    private ProductService productService;
 
-  private CartService cartService;
+    private CartService cartService;
 
-  IndexControllerBase(UserService userService, ProductService productService, CartService cartService) {
-    this.userService = userService;
-    this.productService = productService;
-    this.cartService = cartService;
-  }
+    IndexControllerBase(UserService userService, ProductService productService, CartService cartService) {
+        this.userService = userService;
+        this.productService = productService;
+        this.cartService = cartService;
+    }
 
-  @GetMapping("/")
-  String index(Model model) {
-    List<CartItem> cartItems = cartService.getCartItems();
+    @GetMapping("/")
+    String index(Model model) {
+        List<CartItem> cartItems = cartService.getCartItems();
 
 //    int cnt = 0;
 //    for (CartItem item : cartItems) {
 //      cnt += item.getCount();
 //    }
 //    model.addAttribute("totalCartItems", cnt);
-    model.addAttribute("totalCartItems", cartService.getTotalCartItems());
-    model.addAttribute("cartAmount", cartService.getCartAmount());
-    model.addAttribute("cartItems", cartItems);
-    model.addAttribute("products", productService.getProducts());
-    return "index" ;
-  }
-  @GetMapping(ADMIN_PATH)
-  String admin(Model model) {
-    if (!userService.isAuthenticated()) {
-      return "login";
+        model.addAttribute("totalCartItems", cartService.getTotalCartItems());
+        model.addAttribute("cartAmount", cartService.getCartAmount());
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("products", productService.getProducts());
+        return "index";
     }
-    return "admin/index";
-  }
-  long totalCartItems(Model model) {
-    return totalCartItems(model);
-  }
+
+    @GetMapping(ADMIN_PATH)
+    String admin(Model model) {
+        if (!userService.isAuthenticated()) {
+            return "login";
+        }
+        return userService.isAdmin() ? "/admin/index" : "index";
+    }
+
+    long totalCartItems(Model model) {
+        return totalCartItems(model);
+    }
 }

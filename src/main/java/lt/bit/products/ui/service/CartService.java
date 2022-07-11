@@ -28,7 +28,7 @@ public class CartService {
 
         }
         cartItems.put(productId, item);
-        LOG.info("Cart: " + cartItems);
+//        LOG.info("Cart: " + cartItems);
     }
 
     public List<CartItem> getCartItems() {
@@ -66,6 +66,12 @@ public class CartService {
         return cartItems.values().stream()
                 .map(CartItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void updateItemCount(UUID productId, Integer itemCount) {
+        CartItem item = cartItems.get(productId);
+        item.setCount(itemCount);
+
     }
 }
 
