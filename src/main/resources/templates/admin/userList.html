@@ -3,6 +3,7 @@
 <head th:replace="fragments/head.html"></head>
 <body>
   <header th:insert="fragments/navbar.html"></header>
+  <span style="color: #CC0000" th:if="${errorMsg}" th:text="${errorMsg}"></span>
   <br>
   <table class="table table-striped table-bordered">
     <tr>
@@ -30,6 +31,6 @@
 
     </tr>
   </table>
-  <a th:href="@{admin/users/add}"><input type="submit" value="Add"></a>
+  <a th:href="@{admin/users/add}"><button class="btn btn-success mb-3" type="button">Add</button></a>
 </body>
 </html>

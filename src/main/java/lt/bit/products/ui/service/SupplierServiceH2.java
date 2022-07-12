@@ -2,13 +2,11 @@ package lt.bit.products.ui.service;
 
 import java.util.List;
 import java.util.UUID;
-import lt.bit.products.ui.model.Product;
+
 import lt.bit.products.ui.model.Supplier;
-import lt.bit.products.ui.service.domain.ProductEntity;
+import lt.bit.products.ui.service.domain.ProductRepository;
 import lt.bit.products.ui.service.domain.SupplierEntity;
 import lt.bit.products.ui.service.domain.SupplierRepository;
-import lt.bit.products.ui.service.error.ErrorCode;
-import lt.bit.products.ui.service.error.ValidationException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +17,12 @@ public class SupplierServiceH2 implements SupplierService {
   private final SupplierRepository repository;
   private final ModelMapper mapper;
 
-  public SupplierServiceH2(SupplierRepository repository, ModelMapper mapper) {
+  private final ProductRepository productRepository;
+
+  public SupplierServiceH2(SupplierRepository repository, ModelMapper mapper, ProductRepository productRepository) {
     this.repository = repository;
     this.mapper = mapper;
+    this.productRepository = productRepository;
   }
 
   public List<Supplier> getSuppliers() {
@@ -47,6 +48,7 @@ public class SupplierServiceH2 implements SupplierService {
 
   @Override
   public void deleteSupplier(UUID id) {
+    productRepository.deleteAllBySupplierId(id);
     repository.deleteById(id);
   }
 

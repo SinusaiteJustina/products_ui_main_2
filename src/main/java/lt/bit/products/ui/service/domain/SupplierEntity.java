@@ -1,15 +1,28 @@
 package lt.bit.products.ui.service.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import java.util.UUID;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "suppliers")
 public class SupplierEntity {
 
   @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+          name = "UUID",
+          strategy = "org.hibernate.id.UUIDGenerator",
+          parameters = {
+                  @Parameter(
+                          name = "uuid_gen_strategy_class",
+                          value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+                  )
+          }
+  )
+  @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
   private String name;
   private String companyCode;

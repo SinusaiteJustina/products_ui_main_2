@@ -28,6 +28,9 @@ public class SupplierServiceMock implements SupplierService {
 
   @Override
   public void deleteSupplier(UUID id) {
-    MOCKED_SUPPLIERS.remove(id);
+    MOCKED_SUPPLIERS.stream()
+            .filter(s -> s.getId().equals(id))
+            .findAny()
+            .ifPresent(MOCKED_SUPPLIERS::remove);
   }
 }

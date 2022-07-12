@@ -3,6 +3,7 @@ package lt.bit.products.ui.controller;
 import java.util.List;
 import java.util.UUID;
 
+import lt.bit.products.ui.model.Product;
 import lt.bit.products.ui.model.Supplier;
 import lt.bit.products.ui.service.SupplierService;
 import lt.bit.products.ui.service.UserService;
@@ -22,9 +23,12 @@ class SupplierControllerBase extends ControllerBase {
   private final SupplierService service;
   private final UserService userService;
 
-  public SupplierControllerBase(SupplierService service, UserService userService) {
+  private final ProductController productController;
+
+  public SupplierControllerBase(SupplierService service, UserService userService, ProductController productController) {
     this.service = service;
     this.userService = userService;
+    this.productController = productController;
   }
 
   @GetMapping
@@ -69,5 +73,14 @@ class SupplierControllerBase extends ControllerBase {
     }
     service.deleteSupplier(id);
     return "redirect:" + ADMIN_PATH + SUPPLIERS_PATH;
+  }
+  @GetMapping("/add")
+  String addSupplier(Model model) {
+    if (!userService.isAuthenticated()) {
+      return "login";
+    }
+    model.addAttribute("supplierItem", new Supplier());
+
+    return "admin/supplierForm";
   }
 }

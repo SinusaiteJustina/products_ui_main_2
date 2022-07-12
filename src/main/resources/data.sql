@@ -41,7 +41,7 @@ INSERT INTO products (id, name, price, quantity, description)
 VALUES ('8ecccf13-89c6-41a4-9bc3-943993683cd4', 'Canadian maple syrup', 59.7, 3.0, 'D5');
 
 CREATE TABLE users (
-    id INT PRIMARY KEY,
+    id IDENTITY PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
     password VARCHAR(100) NOT NULL,
     role VARCHAR(15) NOT NULL,
