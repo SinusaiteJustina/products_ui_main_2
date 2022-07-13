@@ -14,7 +14,11 @@
             </div>
             <div class="col-auto">
                 <label for="password" class="col-sm-2 col-form-label">Password:</label>
-                <input type="text" class="form-control" id="password" th:field="*{password}">
+                <input type="password" class="form-control" id="password" th:field="*{password}">
+            </div>
+            <div class="col-auto">
+                <label for="confirmedPassword" class="col-sm-2 col-form-label">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirmedPassword" th:field="*{confirmedPassword}">
             </div>
             <div class="col-auto">
                 <label for="role" class="col-sm-2 col-form-label">Role:</label>

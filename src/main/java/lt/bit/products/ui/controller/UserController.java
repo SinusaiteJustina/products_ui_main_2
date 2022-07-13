@@ -1,11 +1,8 @@
 package lt.bit.products.ui.controller;
 
-
 import java.security.AccessControlException;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
-
 
 import lt.bit.products.ui.model.User;
 import lt.bit.products.ui.service.UserService;
@@ -18,9 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 import static lt.bit.products.ui.controller.ControllerBase.ADMIN_PATH;
-
 
 @Controller
 @RequestMapping(ADMIN_PATH)
@@ -48,19 +43,28 @@ class UserController extends ControllerBase{
     return "admin/userList";
   }
   @GetMapping("/admin/users/{id}")
-  String editUser(@PathVariable Integer id, Model model) {
+  String editUser(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
     if (!userService.isAuthenticated()) {
       return "login";
     }
-    model.addAttribute("user", userService.getUser(id));
+    try {
+      model.addAttribute("user", userService.getUser(id));
+    } catch (AccessControlException e) {
+      redirectAttributes.addFlashAttribute("errorMsg", messages.getMessage(e.getMessage(), null, Locale.getDefault()));
+      return "redirect:" + ADMIN_PATH + USERS_PATH;
+    }
     model.addAttribute("roles", UserRole.values());
     model.addAttribute("statuses", UserStatus.values());
     return "admin/userForm";
   }
   @PostMapping("/users/save")
-  String saveUser(@ModelAttribute User user)
+  String saveUser(@ModelAttribute User editedUser)
           throws ValidationException {
-    userService.saveUser(user);
+    User existingUser = userService.getUser(editedUser.getId());
+    existingUser.setUsername(editedUser.getUsername());
+    existingUser.setRole(editedUser.getRole());
+    existingUser.setStatus(editedUser.getStatus());
+    userService.saveUser(existingUser);
     return "redirect:" + ADMIN_PATH + USERS_PATH;
   }
   @GetMapping("/admin/users/add")

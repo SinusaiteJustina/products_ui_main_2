@@ -23,6 +23,8 @@ public class UserEntity {
   @Column(name = "created_date")
   private LocalDate createdAt;
 
+  @Column(name = "last_edit_ts")
+  private LocalDateTime editedAt;
   @Column(name = "last_login_ts")
   private LocalDateTime loggedInAt;
 
@@ -70,10 +72,26 @@ public class UserEntity {
     return createdAt;
   }
 
+  @PostPersist
+  public void setRegistrationDate() {
+    setCreatedAt(LocalDate.now());
+  }
+
+  @PostUpdate
+  private void setLastEditedDate() {
+    setEditedAt(LocalDateTime.now());
+  }
   public void setCreatedAt(LocalDate createdAt) {
     this.createdAt = createdAt;
   }
 
+  public LocalDateTime getEditedAt() {
+    return editedAt;
+  }
+
+  public void setEditedAt(LocalDateTime editedAt) {
+    this.editedAt = editedAt;
+  }
   public LocalDateTime getLoggedInAt() {
     return loggedInAt;
   }
@@ -81,4 +99,5 @@ public class UserEntity {
   public void setLoggedInAt(LocalDateTime loggedInAt) {
     this.loggedInAt = loggedInAt;
   }
+
 }

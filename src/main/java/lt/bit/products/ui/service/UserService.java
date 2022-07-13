@@ -1,6 +1,8 @@
 package lt.bit.products.ui.service;
 
 import java.security.AccessControlException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +20,8 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import javax.persistence.PostPersist;
 
 @Service
 @Transactional
@@ -52,6 +56,9 @@ public class UserService {
             setAdmin(u.getRole() == UserRole.ADMIN);
             setUserId(u.getId());
             setUserName(u.getUsername());
+//            u.setLoggedInAt(LocalDateTime.now());
+            repository.updateLastLoginTime(LocalDateTime.now());
+//            repository.save(u);
         });
     }
 
@@ -103,11 +110,12 @@ public class UserService {
     }
 
     public User getUser(Integer userId) {
-        return findUser(userId);
-    }
+        Optional<UserEntity> userOptional = repository.findById(userId);
+        if (userOptional.stream().anyMatch(u -> u.getRole() == UserRole.ADMIN)) {
+            throw new AccessControlException("permission.error.ADMIN_USER_EDIT");
+        }
 
-    private User findUser(Integer userId) {
-        return repository.findById(userId).map(u -> mapper.map(u, User.class)).orElseThrow();
+        return userOptional.map(u -> mapper.map(u, User.class)).orElseThrow();
     }
     public void saveUser(User user) throws ValidationException {
 //        Integer id = user.getId();

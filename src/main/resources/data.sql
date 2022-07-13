@@ -47,9 +47,10 @@ CREATE TABLE users (
     role VARCHAR(15) NOT NULL,
     status VARCHAR(10) NOT NULL,
     created_date DATE,
+    last_edit_ts TIMESTAMP,
     last_login_ts TIMESTAMP
 );
 
-INSERT INTO users VALUES (1, 'admin', '123', 'ADMIN', 'ACTIVE', '2022-05-30', LOCALTIMESTAMP());
-INSERT INTO users VALUES (2, 'a1', 'a', 'USER', 'ACTIVE', '2022-06-09', NULL);
-INSERT INTO users VALUES (3, 'b2', 'b', 'USER', 'ACTIVE', '2022-06-09', NULL);
+INSERT INTO users VALUES (1, 'admin', '123', 'ADMIN', 'ACTIVE', '2022-05-30', NULL, NULL);
+INSERT INTO users VALUES (2, 'a1', 'a', 'USER', 'ACTIVE', '2022-06-09', NULL, LOCALTIMESTAMP());
+INSERT INTO users VALUES (3, 'b2', 'b', 'USER', 'ACTIVE', '2022-06-09', LOCALTIMESTAMP(), NUll);
