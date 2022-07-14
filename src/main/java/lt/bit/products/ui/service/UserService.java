@@ -1,15 +1,11 @@
 package lt.bit.products.ui.service;
 
 import java.security.AccessControlException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-import lt.bit.products.ui.model.Product;
 import lt.bit.products.ui.model.User;
-import lt.bit.products.ui.service.domain.ProductEntity;
 import lt.bit.products.ui.service.domain.UserEntity;
 import lt.bit.products.ui.service.domain.UserRepository;
 import lt.bit.products.ui.service.domain.UserRole;
@@ -21,13 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.persistence.PostPersist;
-
 @Service
 @Transactional
 @SessionAttributes({"authenticated", "admin", "userId", "userName"})
 public class UserService {
 
+    private User user;
     private final UserRepository repository;
     private final ModelMapper mapper;
     private boolean authenticated;
@@ -117,11 +112,8 @@ public class UserService {
 
         return userOptional.map(u -> mapper.map(u, User.class)).orElseThrow();
     }
-    public void saveUser(User user) throws ValidationException {
-//        Integer id = user.getId();
-//        if (id != null && !repository.existsById(id)) {
-//            throw new ValidationException(ErrorCode.USER_NOT_FOUND, id);
-//        }
+    public void saveUser(User user)  {
+
         repository.save(mapper.map(user, UserEntity.class));
     }
 }

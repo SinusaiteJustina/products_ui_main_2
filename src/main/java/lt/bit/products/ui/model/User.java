@@ -9,8 +9,8 @@ public class User {
 
   private Integer id;
   private String username;
-  private String password = "111";
-  private String confirmedPassword = "111";
+  private String password;
+  private String confirmedPassword;
   private UserRole role;
   private UserStatus status;
   private LocalDate createdAt;
