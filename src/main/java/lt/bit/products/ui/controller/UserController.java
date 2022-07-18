@@ -112,4 +112,26 @@ class UserController extends ControllerBase{
     }
     return "redirect:" + ADMIN_PATH + USERS_PATH;
   }
+  @GetMapping("/admin/users/activate")
+  String activateUser(@RequestParam Integer id) {
+    if (!userService.isAuthenticated()) {
+      return "login";
+    }
+    userService.changeStatus(UserStatus.ACTIVE, id);
+//    User user = userService.getUser(id);
+//    user.setStatus(UserStatus.ACTIVE);
+//    userService.saveUser(user);
+    return "redirect:" + ADMIN_PATH + USERS_PATH;
+  }
+  @GetMapping("/admin/users/block")
+  String blockUser(@RequestParam Integer id) {
+    if (!userService.isAuthenticated()) {
+      return "login";
+    }
+    userService.changeStatus(UserStatus.BLOCKED, id);
+//    User user = userService.getUser(id);
+//    user.setStatus(UserStatus.BLOCKED);
+//    userService.saveUser(user);
+    return "redirect:" + ADMIN_PATH + USERS_PATH;
+  }
 }

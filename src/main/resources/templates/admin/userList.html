@@ -2,36 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head.html"></head>
 <body>
-  <header th:insert="fragments/navbar.html"></header>
-  <span style="color: #CC0000" th:if="${errorMsg}" th:text="${errorMsg}"></span>
-  <br>
-  <table class="table table-striped table-bordered">
+<header th:insert="fragments/navbar.html"></header>
+<span style="color: #CC0000" th:if="${errorMsg}" th:text="${errorMsg}"></span>
+<br>
+<table class="table table-striped table-bordered">
     <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Role</th>
-      <th>Status</th>
-      <th>Registration Date</th>
-      <th>Last Login Time</th>
-      <th>Last Edited Time</th>
-      <th>Actions</th>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Registration Date</th>
+        <th>Last Login Time</th>
+        <th>Last Edited Time</th>
+        <th>Actions</th>
     </tr>
     <tr th:each="item : ${userItems}">
-      <td th:text="${item.id}">
-      <td th:text="${item.username}">
-      <td th:text="${item.role}">
-      <td th:text="${item.status}">
-      <td th:text="${item.createdAt}">
-      <td th:text="${#temporals.format(item.loggedInAt, 'yyyy-MM-dd HH:mm')}">
-      <td th:text="${#temporals.format(item.editedAt, 'yyyy-MM-dd HH:mm')}">
-      <td th:if="${item.role.toString()} == 'USER'">
-        <a th:href="@{'admin/users/' + ${item.id}}">Edit</a>
-        <a th:href="@{'admin/users/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
-      </td>
-      <td th:unless="${item.role.toString()} == 'USER'">&nbsp;</td>
+        <td th:text="${item.id}">
+        <td th:text="${item.username}">
+        <td th:text="${item.role}">
+        <td th:text="${item.status}">
+        <td th:text="${item.createdAt}">
+        <td th:text="${#temporals.format(item.loggedInAt, 'yyyy-MM-dd HH:mm')}">
+        <td th:text="${#temporals.format(item.editedAt, 'yyyy-MM-dd HH:mm')}">
+        <td th:if="${item.role.toString()} == 'USER'">
+            <a th:href="@{'admin/users/' + ${item.id}}">Edit</a>
+            <a th:href="@{'admin/users/delete?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
+            <a style="color: green" th:unless="${item.status.toString()} == 'ACTIVE'"
+               th:href="@{'admin/users/activate?id=' + ${item.id}}" onclick="return confirm('Are you sure?')">
+                Activate </a>
+            <a style="color: #CC0000" th:unless="${item.status.toString()} == 'BLOCKED'"
+               th:href="@{'admin/users/block?id=' + ${item.id}}" onclick="return confirm('Are you sure?')"> Block </a>
+        </td>
+        <td th:unless="${item.role.toString()} == 'USER'">&nbsp;</td>
 
     </tr>
-  </table>
-  <a th:href="@{admin/users/add}"><button class="btn btn-success mb-3" type="button">Add</button></a>
+</table>
+<a th:href="@{admin/users/add}">
+    <button class="btn btn-success mb-3" type="button">Add</button>
+</a>
 </body>
 </html>

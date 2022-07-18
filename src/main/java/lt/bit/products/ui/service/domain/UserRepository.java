@@ -20,4 +20,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
   @Query("update UserEntity u set u.loggedInAt = ?1")
   void updateLastLoginTime(LocalDateTime localDateTime);
 
+  @Modifying
+  @Query("update UserEntity u set u.status = ?1 where u.id = ?2")
+  void updateStatus(UserStatus status, Integer id);
+
 }

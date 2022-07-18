@@ -9,6 +9,7 @@ import lt.bit.products.ui.model.User;
 import lt.bit.products.ui.service.domain.UserEntity;
 import lt.bit.products.ui.service.domain.UserRepository;
 import lt.bit.products.ui.service.domain.UserRole;
+import lt.bit.products.ui.service.domain.UserStatus;
 import lt.bit.products.ui.service.error.ErrorCode;
 import lt.bit.products.ui.service.error.ValidationException;
 import org.modelmapper.ModelMapper;
@@ -115,5 +116,9 @@ public class UserService {
     public void saveUser(User user)  {
 
         repository.save(mapper.map(user, UserEntity.class));
+    }
+
+    public void changeStatus(UserStatus newStatus, Integer id) {
+        repository.updateStatus(newStatus, id);
     }
 }
