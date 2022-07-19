@@ -51,7 +51,8 @@ public class AuthenticationController extends ControllerBase {
 
     @GetMapping("/auth/logout")
     String logout() {
+        String redirectUrl = redirectToHome();
         userService.logout();
-        return "login";
+        return redirectUrl;
     }
 }

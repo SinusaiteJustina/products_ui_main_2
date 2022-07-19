@@ -54,3 +54,14 @@ CREATE TABLE users (
 INSERT INTO users VALUES (1, 'admin', '123', 'ADMIN', 'ACTIVE', '2022-05-30', NULL, NULL);
 INSERT INTO users VALUES (2, 'a1', 'a', 'USER', 'ACTIVE', '2022-06-09', NULL, LOCALTIMESTAMP());
 INSERT INTO users VALUES (3, 'b2', 'b', 'USER', 'ACTIVE', '2022-06-09', LOCALTIMESTAMP(), NUll);
+
+CREATE TABLE user_profile (
+    user_id INT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    address VARCHAR(30) NOT NULL,
+    city VARCHAR(40) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    email VARCHAR(60) NOT NULL,
+    phone VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

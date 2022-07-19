@@ -1,9 +1,10 @@
 <th:block th:each="cartItem : ${cartItems}">
     <li th:id="${'li_' + cartItem.productId}">
         <span th:text="${cartItem.productName + ' - '}"></span>
-        <input type="number" min='1' class="updateCountField" th:itemid="${cartItem.productId}" style="width: 50px; height: 25px; padding: 3px;" th:value="${cartItem.count}">
+        <input type="number" min='1' class="updateCountField" th:itemid="${cartItem.productId}"
+               style="width: 50px; height: 25px; padding: 3px;" th:value="${cartItem.count}">
         <span th:text="${' x ' + cartItem.productPrice + ' &euro; = '}"></span>
-        <span th:text="${'cartItem.getTotalPrice()'}"></span>&euro;
+        <span th:text="${cartItem.getTotalPrice()}"></span>&euro;
         <a class="removeCartBtn" href="#" th:itemid="${cartItem.productId}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
                  viewBox="0 0 16 16">
@@ -14,3 +15,4 @@
         </a>
     </li>
 </th:block>
+<button type="button" class="btn btn-info" href="/checkout">Checkout</button>
