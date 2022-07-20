@@ -82,7 +82,9 @@
 </script>
 <div class="container">
     <div class="row" th:if="${isAuthenticated}">
-        <a style="width: 100px" href="/auth/logout"> Sign out </a>
+        <b style="width: 80px" th:text="${currentUsername + ':'}"></b>
+        <a style="width: 100px" href="/auth/logout"> Sign out </a> | <a style="width: 100px" href="/profile">
+        Profile </a>
     </div>
     <div class="row" th:unless="${isAuthenticated}">
         <a style="width: 80px" href="/auth/login"> Sign In </a> | <a style="width: 80px" href="/register"> Sign Up </a>
@@ -117,7 +119,9 @@
                     </a>
                 </li>
             </th:block>
-           <a href="/checkout"><button type="button" class="btn btn-info">Checkout</button></a>
+            <a href="/checkout">
+                <button type="button" class="btn btn-info">Checkout</button>
+            </a>
         </ul>
     </div>
     <div class="row">

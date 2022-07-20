@@ -23,12 +23,9 @@ class SupplierControllerBase extends ControllerBase {
   private final SupplierService service;
   private final UserService userService;
 
-  private final ProductController productController;
-
-  public SupplierControllerBase(SupplierService service, UserService userService, ProductController productController) {
+  public SupplierControllerBase(SupplierService service, UserService userService) {
     this.service = service;
     this.userService = userService;
-    this.productController = productController;
   }
 
   @GetMapping

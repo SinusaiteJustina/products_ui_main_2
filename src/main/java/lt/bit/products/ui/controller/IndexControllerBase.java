@@ -39,6 +39,7 @@ class IndexControllerBase extends ControllerBase {
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("products", productService.getProducts());
         model.addAttribute("isAuthenticated", userService.isAuthenticated());
+        model.addAttribute("currentUsername", userService.getCurrentUsername());
         return "index";
     }
 

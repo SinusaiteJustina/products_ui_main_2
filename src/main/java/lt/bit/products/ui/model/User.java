@@ -20,6 +20,8 @@ public class User {
   private LocalDateTime editedAt;
   private LocalDateTime loggedInAt;
 
+  private UserProfile userProfile;
+
   public Integer getId() {
     return id;
   }
@@ -88,5 +90,12 @@ public class User {
 
   public void setLoggedInAt(LocalDateTime loggedInAt) {
     this.loggedInAt = loggedInAt;
+  }
+  public UserProfile getUserProfile() {
+    return userProfile;
+  }
+
+  public void setUserProfile(UserProfile userProfile) {
+    this.userProfile = userProfile;
   }
 }

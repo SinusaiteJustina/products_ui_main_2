@@ -27,9 +27,6 @@ public class UserEntity {
     private LocalDateTime editedAt;
     @Column(name = "last_login_ts")
     private LocalDateTime loggedInAt;
-    @OneToOne
-    @JoinColumn(name = "id")
-    private UserProfileEntity profile;
 
     public Integer getId() {
         return id;
@@ -105,12 +102,5 @@ public class UserEntity {
         this.loggedInAt = loggedInAt;
     }
 
-    public UserProfileEntity getProfile() {
-        return profile;
-    }
-
-    public void setProfile(UserProfileEntity profile) {
-        this.profile = profile;
-    }
 
 }
