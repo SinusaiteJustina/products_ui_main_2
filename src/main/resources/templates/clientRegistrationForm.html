@@ -2,8 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/head.html"></head>
 <body>
-<header></header>
-
 <div class="container" id="registrationForm">
     <span style="color: #CC0000" th:text="${errorMsg}"></span>
     <form method="post" th:action="@{/register}" th:object="${user}">

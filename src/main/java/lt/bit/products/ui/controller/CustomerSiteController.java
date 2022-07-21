@@ -1,5 +1,6 @@
 package lt.bit.products.ui.controller;
 
+import lt.bit.products.ui.model.CartItem;
 import lt.bit.products.ui.model.User;
 import lt.bit.products.ui.model.UserProfile;
 import lt.bit.products.ui.service.CartService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -92,9 +94,14 @@ class CustomerSiteController {
 
     @GetMapping("/profile")
     String showProfile(Model model) {
+        if (!userService.isAuthenticated()) {
+            return "login";
+        }
         Integer currentUserId = userService.getCurrentUserId();
         UserProfile userProfile = userService.getUserProfile(currentUserId);
         model.addAttribute("profileData", userProfile);
+        model.addAttribute("isAuthenticated", userService.isAuthenticated());
+        model.addAttribute("currentUsername", userService.getCurrentUsername());
         return "profile";
     }
 
@@ -111,6 +118,16 @@ class CustomerSiteController {
         }
         userService.saveUserProfile(updatedProfile);
         return "redirect:/";
+    }
+    @GetMapping("/cart/checkout")
+    String showCheckoutForm(Model model) {
+        model.addAttribute("cartItems", cartService.getCartItems());
+        UserProfile userProfile = userService.isAuthenticated() ? userService.getUserProfile(userService.getCurrentUserId()) : new UserProfile();
+        model.addAttribute("profileData", userProfile);
+        model.addAttribute("isAuthenticated", userService.isAuthenticated());
+        model.addAttribute("currentUsername", userService.getCurrentUsername());
+        model.addAttribute("totalCartAmount", cartService.getCartAmount());
+        return "checkoutForm";
     }
 
 }

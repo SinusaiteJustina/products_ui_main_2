@@ -15,4 +15,8 @@
         </a>
     </li>
 </th:block>
-<button type="button" class="btn btn-info" href="/checkout">Checkout</button>
+<li id="checkout" style="list-style-type: none">
+<a th:unless="${cartItems.isEmpty()}" href="/cart/checkout">
+    <button type="button" class="btn btn-info">Checkout</button>
+</a>
+</li>

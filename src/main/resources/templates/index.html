@@ -15,6 +15,9 @@
                 $('#cartCounter').text(data);
                 $.get('/cart/amount', function (amount) {
                     $('#cartAmount').text(amount);
+                    if(!amount) {
+                        $('#checkout').hide();
+                    }
                 });
             }
         });
@@ -81,15 +84,7 @@
     });
 </script>
 <div class="container">
-    <div class="row" th:if="${isAuthenticated}">
-        <b style="width: 80px" th:text="${currentUsername + ':'}"></b>
-        <a style="width: 100px" href="/auth/logout"> Sign out </a> | <a style="width: 100px" href="/profile">
-        Profile </a>
-    </div>
-    <div class="row" th:unless="${isAuthenticated}">
-        <a style="width: 80px" href="/auth/login"> Sign In </a> | <a style="width: 80px" href="/register"> Sign Up </a>
-    </div>
-    <br>
+    <div th:replace="fragments/navbarUser.html :: navbarParams(isAuthenticated=${isAuthenticated},currentUsername=${currentUsername})"></div>
     <div class="row">
         <button id="cartBtn" type="button" class="btn btn-outline-danger mb-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
@@ -119,9 +114,11 @@
                     </a>
                 </li>
             </th:block>
-            <a href="/checkout">
+            <li id="checkout" style="list-style-type: none">
+            <a th:unless="${cartItems.isEmpty()}" href="cart/checkout">
                 <button type="button" class="btn btn-info">Checkout</button>
             </a>
+            </li>
         </ul>
     </div>
     <div class="row">

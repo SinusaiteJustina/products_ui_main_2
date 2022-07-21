@@ -5,7 +5,18 @@
 <div class="container" id="profile">
     <div th:replace="fragments/navbarUser.html :: navbarParams(isAuthenticated=${isAuthenticated},currentUsername=${currentUsername})"></div>
     <span style="color: #CC0000" th:text="${errorMsg}"></span>
-    <form method="post" th:action="@{/profile}" th:object="${profileData}">
+    <div class="row">
+        <ul style="margin-left: 20px">
+            <li th:each="cartItem : ${cartItems}">
+                <span th:text="${cartItem.productName + ' - '}"></span>
+                <input type="number" min='1' readonly th:itemid="${cartItem.productId}"
+                       style="width: 50px; height: 25px; padding: 3px;" th:value="${cartItem.count}">
+                <span th:text="${' x ' + cartItem.productPrice + ' &euro; = '}"></span>
+                <span th:text="${cartItem.getTotalPrice()}"></span>&euro;
+            </li>
+        </ul>
+    </div>
+    <form method="post" th:action="@{/cart/checkout}" th:object="${profileData}">
         <div class="row g-3">
             <div class="col-auto">
                 <label for="name" class="col-sm-2 col-form-label">Name:</label>
@@ -35,9 +46,7 @@
         <div class="row g-3"><br><br></div>
         <div class="row g-3">
             <div class="col-auto">
-                <button class="btn btn-primary mb-3" type="submit">Save</button>
-                <button class="btn btn-secondary mb-3" type="button" onclick="history.back()">Back</button>
-                <input type="hidden" >
+                <button class="btn btn-primary mb-3" type="submit" th:text="${' Checkout ' + '('+ totalCartAmount + ' &euro; )'}">Checkout</button>
             </div>
         </div>
     </form>
