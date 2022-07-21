@@ -1,0 +1,11 @@
+<th:block th:fragment="navbarParams(isAuthenticated)" th:with="currentUsername=${currentUsername} ?: ''">
+        <div class="row" th:if="${isAuthenticated}">
+            <b style="width: 80px" th:text="${currentUsername + ':'}"></b>
+            <a style="width: 100px" href="/auth/logout"> Sign out </a> | <a style="width: 100px" href="/profile">
+            Profile </a>
+        </div>
+        <div class="row" th:unless="${isAuthenticated}">
+            <a style="width: 80px" href="/auth/login"> Sign In </a> | <a style="width: 80px" href="/register"> Sign Up </a>
+        </div>
+<th:block>
+<br>
