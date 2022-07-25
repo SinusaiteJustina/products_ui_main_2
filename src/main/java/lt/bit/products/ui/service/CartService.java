@@ -73,5 +73,9 @@ public class CartService {
         item.setCount(itemCount);
 
     }
+
+    public void clearCartItems() {
+        cartItems.clear();
+    }
 }
 

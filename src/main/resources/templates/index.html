@@ -120,6 +120,7 @@
             </a>
             </li>
         </ul>
+        <div th:if="${sucessMsg}" class="row"><span style="color: darkgreen" th:text="${sucessMsg}"></span></div>
     </div>
     <div class="row">
         <div class="col" th:each="item : ${products}">

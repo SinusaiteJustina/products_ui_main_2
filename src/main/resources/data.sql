@@ -92,7 +92,7 @@ CREATE TABLE orders
 );
 CREATE TABLE order_items
 (
-    id         VARCHAR(20) PRIMARY KEY,
+
     order_id   VARCHAR(20),
     product_id UUID NOT NULL,
     quantity   NUMERIC(5, 2),

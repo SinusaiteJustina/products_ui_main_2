@@ -19,28 +19,28 @@
     <form method="post" th:action="@{/cart/checkout}" th:object="${profileData}">
         <div class="row g-3">
             <div class="col-auto">
-                <label for="name" class="col-sm-2 col-form-label">Name:</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}">
+                <label for="customer_name" class="col-sm-2 col-form-label">Name:</label>
+                <input type="text" class="form-control" id="customer_name" name="customer_name" th:field="*{name}">
             </div>
             <div class="col-auto">
-                <label for="address" class="col-sm-2 col-form-label">Address:</label>
-                <input type="text" class="form-control" id="address" th:field="*{address}">
+                <label for="customer_address" class="col-sm-2 col-form-label">Address:</label>
+                <input type="text" class="form-control" id="customer_address"  th:field="*{address}">
             </div>
             <div class="col-auto">
-                <label for="city" class="col-sm-2 col-form-label">City:</label>
-                <input type="text" class="form-control" id="city" th:field="*{city}">
+                <label for="customer_city" class="col-sm-2 col-form-label">City:</label>
+                <input type="text" class="form-control" id="customer_city"  th:field="*{city}">
             </div>
             <div class="col-auto">
-                <label for="country" class="col-sm-2 col-form-label">Country:</label>
-                <input type="text" class="form-control" id="country" th:field="*{country}">
+                <label for="customer_country" class="col-sm-2 col-form-label">Country:</label>
+                <input type="text" class="form-control" id="customer_country"  th:field="*{country}">
             </div>
             <div class="col-auto">
-                <label for="email" class="col-sm-2 col-form-label">Email address:</label>
-                <input type="text" class="form-control" id="email" th:field="*{email}">
+                <label for="customer_email" class="col-sm-2 col-form-label">Email address:</label>
+                <input type="text" class="form-control" id="customer_email"  th:field="*{email}">
             </div>
             <div class="col-auto">
-                <label for="phone" class="col-sm-2 col-form-label">Phone number:</label>
-                <input type="text" class="form-control" id="phone" th:field="*{phone}">
+                <label for="customer_phone" class="col-sm-2 col-form-label">Phone number:</label>
+                <input type="text" class="form-control" id="customer_phone"  th:field="*{phone}">
             </div>
         </div>
         <div class="row g-3"><br><br></div>

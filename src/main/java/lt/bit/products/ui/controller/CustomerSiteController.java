@@ -1,10 +1,13 @@
 package lt.bit.products.ui.controller;
 
 import lt.bit.products.ui.model.CartItem;
+import lt.bit.products.ui.model.OrderItem;
 import lt.bit.products.ui.model.User;
 import lt.bit.products.ui.model.UserProfile;
 import lt.bit.products.ui.service.CartService;
+import lt.bit.products.ui.service.OrderService;
 import lt.bit.products.ui.service.UserService;
+import lt.bit.products.ui.service.domain.OrderEntity;
 import lt.bit.products.ui.service.domain.UserRole;
 import lt.bit.products.ui.service.domain.UserStatus;
 import lt.bit.products.ui.service.error.UserValidator;
@@ -16,25 +19,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 class CustomerSiteController {
     protected static final String PRODUCTS_PATH = "/products";
     private final CartService cartService;
     private final UserService userService;
+    private final OrderService orderService;
     private final UserValidator userValidator;
     private final MessageSource messages;
 
     private final static Logger LOG = LoggerFactory.getLogger(CustomerSiteController.class);
 
-    CustomerSiteController(CartService cartService, UserService userService, UserValidator userValidator, MessageSource messages) {
+    CustomerSiteController(CartService cartService, UserService userService, OrderService orderService, UserValidator userValidator, MessageSource messages) {
         this.cartService = cartService;
         this.userService = userService;
+        this.orderService = orderService;
         this.userValidator = userValidator;
         this.messages = messages;
     }
@@ -128,6 +139,34 @@ class CustomerSiteController {
         model.addAttribute("currentUsername", userService.getCurrentUsername());
         model.addAttribute("totalCartAmount", cartService.getCartAmount());
         return "checkoutForm";
+    }
+
+    @PostMapping("/cart/checkout")
+    String submitCheckoutForm(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        OrderEntity order = new OrderEntity();
+        String id = UUID.randomUUID().toString().substring(0, 18);
+        String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        order.setId(datePart + id.substring(8));
+        order.setCustomerAddress(request.getParameter("address"));
+        order.setCustomerCity(request.getParameter("city"));
+        order.setCustomerCountry(request.getParameter("country"));
+        order.setCustomerEmail(request.getParameter("email"));
+        order.setCustomerPhone(request.getParameter("phone"));
+        order.setCustomerName(request.getParameter("name"));
+
+        List<OrderItem> items = cartService.getCartItems().stream()
+                .map(cartItem -> {
+                    OrderItem item = new OrderItem();
+                    item.setProductId(cartItem.getProductId());
+                    item.setQuantity(cartItem.getCount());
+                    return item;
+                })
+                .collect(toList());
+        order.setItems(items);
+        orderService.createOrder(order);
+        cartService.clearCartItems();
+        redirectAttributes.addFlashAttribute("sucessMsg", "Thank you ! Your order has been placed");
+        return "redirect:/";
     }
 
 }
