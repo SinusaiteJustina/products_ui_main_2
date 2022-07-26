@@ -86,6 +86,7 @@ CREATE TABLE orders
     customer_country VARCHAR(50) NOT NULL,
     customer_email   VARCHAR(60) NOT NULL,
     customer_phone   VARCHAR(50),
+    status        VARCHAR(10)  NOT NULL,
     user_id          INT,
     total_cart_amount NUMERIC(5, 2),
     FOREIGN KEY (user_id) REFERENCES users (id)

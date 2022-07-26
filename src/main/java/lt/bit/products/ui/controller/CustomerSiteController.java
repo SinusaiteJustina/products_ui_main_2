@@ -8,6 +8,7 @@ import lt.bit.products.ui.service.CartService;
 import lt.bit.products.ui.service.OrderService;
 import lt.bit.products.ui.service.UserService;
 import lt.bit.products.ui.service.domain.OrderEntity;
+import lt.bit.products.ui.service.domain.OrderStatus;
 import lt.bit.products.ui.service.domain.UserRole;
 import lt.bit.products.ui.service.domain.UserStatus;
 import lt.bit.products.ui.service.error.UserValidator;
@@ -142,7 +143,7 @@ class CustomerSiteController {
     }
 
     @PostMapping("/cart/checkout")
-    String submitCheckoutForm(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    String submitCheckoutForm(HttpServletRequest request, RedirectAttributes redirectAttributes, Integer statusId) {
         OrderEntity order = new OrderEntity();
         String id = UUID.randomUUID().toString().substring(0, 18);
         String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -153,6 +154,11 @@ class CustomerSiteController {
         order.setCustomerEmail(request.getParameter("email"));
         order.setCustomerPhone(request.getParameter("phone"));
         order.setCustomerName(request.getParameter("name"));
+        order.setStatus(OrderStatus.NEW);
+        order.setTotalCartAmount(cartService.getCartAmount().doubleValue());
+        if (userService.isAuthenticated()) {
+            order.setUserId(userService.getCurrentUserId());
+        }
 
         List<OrderItem> items = cartService.getCartItems().stream()
                 .map(cartItem -> {

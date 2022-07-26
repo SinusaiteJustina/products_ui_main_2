@@ -1,12 +1,12 @@
 package lt.bit.products.ui.service;
 
-
-import lt.bit.products.ui.service.domain.OrderEntity;
-import lt.bit.products.ui.service.domain.OrderRepository;
+import lt.bit.products.ui.model.Order;
+import lt.bit.products.ui.service.domain.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.criteria.Order;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -27,5 +27,9 @@ public class OrderService {
         repository.save(order);
     }
 
-
+    public List<Order> getOrders() {
+        return repository.findAll().stream()
+                .map(o -> mapper.map(o, Order.class))
+                .collect(Collectors.toList());
+    }
 }

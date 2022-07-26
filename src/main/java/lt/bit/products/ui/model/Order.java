@@ -1,19 +1,15 @@
-package lt.bit.products.ui.service.domain;
+package lt.bit.products.ui.model;
 
-import lt.bit.products.ui.model.OrderItem;
+import lt.bit.products.ui.service.domain.OrderStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "orders")
-public class OrderEntity implements Serializable {
+public class Order {
 
-
-    @Id
     private String id;
-
     private String customerName;
 
     private String customerAddress;
@@ -24,11 +20,9 @@ public class OrderEntity implements Serializable {
     private Integer userId;
     private double totalCartAmount;
 
-    @Enumerated(EnumType.STRING)
     private OrderStatus status;
-    @ElementCollection
-    @CollectionTable(name = "order_items", joinColumns = {@JoinColumn(name = "order_id")})
-    private List<OrderItem> items;
+
+    private List<OrderItem> items = new ArrayList<>();
 
     public String getId() {
         return id;
