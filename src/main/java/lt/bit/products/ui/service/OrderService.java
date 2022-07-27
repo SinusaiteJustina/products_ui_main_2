@@ -32,4 +32,7 @@ public class OrderService {
                 .map(o -> mapper.map(o, Order.class))
                 .collect(Collectors.toList());
     }
+    public void changeStatus(OrderStatus newStatus, String id) {
+        repository.updateStatus(newStatus, id);
+    }
 }

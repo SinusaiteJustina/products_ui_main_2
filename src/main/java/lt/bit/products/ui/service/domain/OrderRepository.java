@@ -10,8 +10,8 @@ import java.util.UUID;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, String> {
 
-//    @Modifying
-//    @Query("update OrderEntity o set o.status = ?1 where o.id = ?2")
-//    void updateStatus(OrderStatus status, Integer id);
+    @Modifying
+    @Query("update OrderEntity o set o.status = ?1 where o.id = ?2")
+    void updateStatus(OrderStatus status, String id);
 
 }
